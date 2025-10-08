@@ -1,4 +1,4 @@
-This is a project build by shreyas challa
+This is a project built by shreyas challa
 
 The goal is to use computer vision and machine learning to recognize hand gestures shown to a camera and use this correctly recogized output to perform automated tasks.
 
