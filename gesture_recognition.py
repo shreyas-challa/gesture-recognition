@@ -4,6 +4,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import time
 import webbrowser
+from actions import perform_actions as action
 
 # MediaPipe modules
 BaseOptions = mp.tasks.BaseOptions
@@ -14,15 +15,23 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 # Path to your model
 model_path = 'gesture_recognizer.task'
+prev_gesture = 'None'
 
 # Callback function to handle results
 def print_result(result, output_image: mp.Image, timestamp_ms: int):
-    if result.gestures:
-        gesture_name = result.gestures[0][0].category_name
-        # print(gesture_name)
-        confidence = result.gestures[0][0].score
-        print(f"Gesture: {gesture_name} ({confidence:.2f}) at {timestamp_ms} ms")
+    global prev_gesture
 
+    if result.gestures :
+        gesture_name = result.gestures[0][0].category_name
+        confidence = result.gestures[0][0].score
+        
+        if gesture_name != prev_gesture:
+            prev_gesture = gesture_name
+            action(gesture_name)
+        else:
+            print(f"Gesture: {gesture_name} ({confidence:.2f}) at {timestamp_ms} ms")
+
+    
 # Create recognizer options for live stream
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path=model_path),
