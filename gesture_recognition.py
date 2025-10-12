@@ -13,23 +13,31 @@ GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
 GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
-# Path to your model
+# Path to model and variables
 model_path = 'gesture_recognizer.task'
 prev_gesture = 'None'
+none_i = 1
 
 # Callback function to handle results
 def print_result(result, output_image: mp.Image, timestamp_ms: int):
     global prev_gesture
+    global none_i
 
     if result.gestures :
         gesture_name = result.gestures[0][0].category_name
         confidence = result.gestures[0][0].score
-        
-        if gesture_name != prev_gesture:
+
+        if gesture_name == 'None':
+            if none_i % 20 == 0:
+                prev_gesture = gesture_name #assign "None" to previous gesture
+                none_i = 1
+            none_i += 1
+        elif (gesture_name != prev_gesture):
+            none_i = 1
             prev_gesture = gesture_name
             action(gesture_name)
-        else:
-            print(f"Gesture: {gesture_name} ({confidence:.2f}) at {timestamp_ms} ms")
+
+        print(f"Gesture: {gesture_name} ({confidence:.2f}) at {timestamp_ms} ms")
 
     
 # Create recognizer options for live stream
