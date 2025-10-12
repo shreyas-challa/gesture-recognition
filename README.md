@@ -8,7 +8,14 @@ The next milestone is to turn this into dynamic detection, where we set rules to
 For example, going from open palm to a closed fist.
 This action should map to a single task and perform it.
 
-DATE: 11th october 2025
+DATE: 12th October, 2025
+Added a leniency of 20 frames specifically for "None" gesture to stop updating `prev_gesture` varible between intended gesture transitions.
+
+Next to do:
+- Add more "gesture: task" mappings.
+- Start work on dynamic recognition/detection.
+
+DATE: 11th October, 2025
 Added a task performer for proof of concept. 
 This features is currectly only mapped to "Thumb_Up" gesture and its designed to open "https://youtube.com" in a new web browser tab.
 
